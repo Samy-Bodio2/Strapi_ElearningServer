@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "evaluation_questions",
+  "info": {
+    "singularName": "evaluation-question",
+    "pluralName": "evaluation-questions",
+    "displayName": "EvaluationQuestion"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "QuestionText": {
+      "type": "text"
+    },
+    "Option1": {
+      "type": "string"
+    },
+    "Option2": {
+      "type": "string"
+    },
+    "Option3": {
+      "type": "string"
+    },
+    "Option4": {
+      "type": "string"
+    },
+    "CorrectAnswer": {
+      "type": "string"
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "evaluation_questions"
+    }
+  }
+}

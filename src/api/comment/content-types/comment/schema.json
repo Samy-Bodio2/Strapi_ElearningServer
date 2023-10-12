@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments",
+  "info": {
+    "singularName": "comment",
+    "pluralName": "comments",
+    "displayName": "Comment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "CommentText": {
+      "type": "text"
+    },
+    "Date": {
+      "type": "datetime"
+    },
+    "Rating": {
+      "type": "integer"
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "comments"
+    },
+    "utilisateur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::utilisateur.utilisateur",
+      "inversedBy": "comments"
+    }
+  }
+}
