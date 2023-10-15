@@ -45,12 +45,6 @@
       "target": "api::teacher.teacher",
       "inversedBy": "courses"
     },
-    "utilisateurs": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::utilisateur.utilisateur",
-      "mappedBy": "courses"
-    },
     "chapters": {
       "type": "relation",
       "relation": "oneToMany",

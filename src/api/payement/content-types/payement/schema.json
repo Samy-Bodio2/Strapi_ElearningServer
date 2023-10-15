@@ -18,17 +18,17 @@
     "Date": {
       "type": "datetime"
     },
-    "utilisateur": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::utilisateur.utilisateur",
-      "inversedBy": "payements"
-    },
     "courses": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::course.course",
       "mappedBy": "payements"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "payements"
     }
   }
 }
