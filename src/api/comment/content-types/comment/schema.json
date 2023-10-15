@@ -4,7 +4,8 @@
   "info": {
     "singularName": "comment",
     "pluralName": "comments",
-    "displayName": "Comment"
+    "displayName": "Comment",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,9 +14,6 @@
   "attributes": {
     "CommentText": {
       "type": "text"
-    },
-    "Date": {
-      "type": "datetime"
     },
     "Rating": {
       "type": "integer"

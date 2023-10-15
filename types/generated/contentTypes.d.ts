@@ -723,6 +723,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::payement.payement'
     >;
+    Thumbnail: Attribute.Media;
+    evaluations: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::evaluation.evaluation'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -788,13 +794,13 @@ export interface ApiCommentComment extends Schema.CollectionType {
     singularName: 'comment';
     pluralName: 'comments';
     displayName: 'Comment';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     CommentText: Attribute.Text;
-    Date: Attribute.DateTime;
     Rating: Attribute.Integer;
     course: Attribute.Relation<
       'api::comment.comment',
@@ -899,17 +905,22 @@ export interface ApiEvaluationEvaluation extends Schema.CollectionType {
     singularName: 'evaluation';
     pluralName: 'evaluations';
     displayName: 'Evaluation';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     Score: Attribute.Float;
-    Date: Attribute.DateTime;
     course: Attribute.Relation<
       'api::evaluation.evaluation',
       'oneToOne',
       'api::course.course'
+    >;
+    user: Attribute.Relation<
+      'api::evaluation.evaluation',
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -936,6 +947,7 @@ export interface ApiEvaluationQuestionEvaluationQuestion
     singularName: 'evaluation-question';
     pluralName: 'evaluation-questions';
     displayName: 'EvaluationQuestion';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -946,11 +958,13 @@ export interface ApiEvaluationQuestionEvaluationQuestion
     Option2: Attribute.String;
     Option3: Attribute.String;
     Option4: Attribute.String;
-    CorrectAnswer: Attribute.String;
     course: Attribute.Relation<
       'api::evaluation-question.evaluation-question',
       'manyToOne',
       'api::course.course'
+    >;
+    CorrectAnswer: Attribute.Enumeration<
+      ['Option 1', 'Option 2', 'Option 3', 'Option 4']
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

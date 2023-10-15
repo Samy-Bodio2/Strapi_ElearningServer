@@ -4,7 +4,8 @@
   "info": {
     "singularName": "evaluation-question",
     "pluralName": "evaluation-questions",
-    "displayName": "EvaluationQuestion"
+    "displayName": "EvaluationQuestion",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -26,14 +27,20 @@
     "Option4": {
       "type": "string"
     },
-    "CorrectAnswer": {
-      "type": "string"
-    },
     "course": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::course.course",
       "inversedBy": "evaluation_questions"
+    },
+    "CorrectAnswer": {
+      "type": "enumeration",
+      "enum": [
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4"
+      ]
     }
   }
 }

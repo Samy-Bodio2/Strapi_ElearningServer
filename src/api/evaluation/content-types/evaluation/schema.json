@@ -4,7 +4,8 @@
   "info": {
     "singularName": "evaluation",
     "pluralName": "evaluations",
-    "displayName": "Evaluation"
+    "displayName": "Evaluation",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,14 +15,17 @@
     "Score": {
       "type": "float"
     },
-    "Date": {
-      "type": "datetime"
-    },
     "course": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::course.course",
       "inversedBy": "evaluation"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "evaluations"
     }
   }
 }
