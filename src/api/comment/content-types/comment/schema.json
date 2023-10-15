@@ -26,10 +26,10 @@
       "target": "api::course.course",
       "inversedBy": "comments"
     },
-    "utilisateur": {
+    "user": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::utilisateur.utilisateur",
+      "target": "plugin::users-permissions.user",
       "inversedBy": "comments"
     }
   }

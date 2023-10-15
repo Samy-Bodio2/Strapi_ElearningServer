@@ -482,6 +482,104 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginApiVideoUploaderApiVideoAsset
+  extends Schema.CollectionType {
+  collectionName: 'api_video_assets';
+  info: {
+    name: 'api-video-asset';
+    singularName: 'api-video-asset';
+    pluralName: 'api-video-assets';
+    displayName: 'api.video Asset';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    description: Attribute.String & Attribute.Required;
+    _public: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<true>;
+    videoId: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    hls: Attribute.String & Attribute.Required;
+    iframe: Attribute.String & Attribute.Required;
+    mp4: Attribute.String & Attribute.Required;
+    player: Attribute.String & Attribute.Required;
+    thumbnail: Attribute.String & Attribute.Required;
+    tags: Attribute.JSON;
+    metadata: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::api-video-uploader.api-video-asset',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::api-video-uploader.api-video-asset',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -615,6 +713,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    comments: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::comment.comment'
+    >;
+    payements: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::payement.payement'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -625,50 +733,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -682,6 +746,7 @@ export interface ApiChapterChapter extends Schema.CollectionType {
     singularName: 'chapter';
     pluralName: 'chapters';
     displayName: 'Chapter';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -694,10 +759,10 @@ export interface ApiChapterChapter extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
-    tutorial: Attribute.Relation<
+    lecons: Attribute.Relation<
       'api::chapter.chapter',
-      'oneToOne',
-      'api::tutorial.tutorial'
+      'oneToMany',
+      'api::lecon.lecon'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -736,10 +801,10 @@ export interface ApiCommentComment extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
-    utilisateur: Attribute.Relation<
+    user: Attribute.Relation<
       'api::comment.comment',
       'manyToOne',
-      'api::utilisateur.utilisateur'
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -793,11 +858,6 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'api::course.course',
       'manyToOne',
       'api::teacher.teacher'
-    >;
-    utilisateurs: Attribute.Relation<
-      'api::course.course',
-      'manyToMany',
-      'api::utilisateur.utilisateur'
     >;
     chapters: Attribute.Relation<
       'api::course.course',
@@ -910,6 +970,48 @@ export interface ApiEvaluationQuestionEvaluationQuestion
   };
 }
 
+export interface ApiLeconLecon extends Schema.CollectionType {
+  collectionName: 'lecons';
+  info: {
+    singularName: 'lecon';
+    pluralName: 'lecons';
+    displayName: 'lecon';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    content: Attribute.Text;
+    hasTutorial: Attribute.Boolean;
+    tutorial: Attribute.Relation<
+      'api::lecon.lecon',
+      'oneToOne',
+      'api::tutorial.tutorial'
+    >;
+    chapter: Attribute.Relation<
+      'api::lecon.lecon',
+      'manyToOne',
+      'api::chapter.chapter'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::lecon.lecon',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::lecon.lecon',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiPayementPayement extends Schema.CollectionType {
   collectionName: 'payements';
   info: {
@@ -924,15 +1026,15 @@ export interface ApiPayementPayement extends Schema.CollectionType {
   attributes: {
     Amount: Attribute.Float;
     Date: Attribute.DateTime;
-    utilisateur: Attribute.Relation<
-      'api::payement.payement',
-      'manyToOne',
-      'api::utilisateur.utilisateur'
-    >;
     courses: Attribute.Relation<
       'api::payement.payement',
       'manyToMany',
       'api::course.course'
+    >;
+    user: Attribute.Relation<
+      'api::payement.payement',
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1030,6 +1132,7 @@ export interface ApiTutorialTutorial extends Schema.CollectionType {
     singularName: 'tutorial';
     pluralName: 'tutorials';
     displayName: 'Tutorial';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1037,12 +1140,7 @@ export interface ApiTutorialTutorial extends Schema.CollectionType {
   attributes: {
     Title: Attribute.String;
     Content: Attribute.Text;
-    VideoUrl: Attribute.Text;
-    chapter: Attribute.Relation<
-      'api::tutorial.tutorial',
-      'oneToOne',
-      'api::chapter.chapter'
-    >;
+    VideoUrl: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1054,55 +1152,6 @@ export interface ApiTutorialTutorial extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::tutorial.tutorial',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUtilisateurUtilisateur extends Schema.CollectionType {
-  collectionName: 'utilisateurs';
-  info: {
-    singularName: 'utilisateur';
-    pluralName: 'utilisateurs';
-    displayName: 'Utilisateur';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Username: Attribute.String;
-    Password: Attribute.Password;
-    Email: Attribute.Email;
-    courses: Attribute.Relation<
-      'api::utilisateur.utilisateur',
-      'manyToMany',
-      'api::course.course'
-    >;
-    payements: Attribute.Relation<
-      'api::utilisateur.utilisateur',
-      'oneToMany',
-      'api::payement.payement'
-    >;
-    comments: Attribute.Relation<
-      'api::utilisateur.utilisateur',
-      'oneToMany',
-      'api::comment.comment'
-    >;
-    Status: Attribute.Enumeration<['Teacher', 'Student']>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::utilisateur.utilisateur',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::utilisateur.utilisateur',
       'oneToOne',
       'admin::user'
     > &
@@ -1122,20 +1171,21 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::api-video-uploader.api-video-asset': PluginApiVideoUploaderApiVideoAsset;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::chapter.chapter': ApiChapterChapter;
       'api::comment.comment': ApiCommentComment;
       'api::course.course': ApiCourseCourse;
       'api::evaluation.evaluation': ApiEvaluationEvaluation;
       'api::evaluation-question.evaluation-question': ApiEvaluationQuestionEvaluationQuestion;
+      'api::lecon.lecon': ApiLeconLecon;
       'api::payement.payement': ApiPayementPayement;
       'api::subject.subject': ApiSubjectSubject;
       'api::teacher.teacher': ApiTeacherTeacher;
       'api::tutorial.tutorial': ApiTutorialTutorial;
-      'api::utilisateur.utilisateur': ApiUtilisateurUtilisateur;
     }
   }
 }

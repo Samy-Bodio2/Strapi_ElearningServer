@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tutorial",
     "pluralName": "tutorials",
-    "displayName": "Tutorial"
+    "displayName": "Tutorial",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,13 +19,14 @@
       "type": "text"
     },
     "VideoUrl": {
-      "type": "text"
-    },
-    "chapter": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::chapter.chapter",
-      "inversedBy": "tutorial"
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

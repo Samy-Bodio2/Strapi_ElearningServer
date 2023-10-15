@@ -4,7 +4,8 @@
   "info": {
     "singularName": "chapter",
     "pluralName": "chapters",
-    "displayName": "Chapter"
+    "displayName": "Chapter",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -23,10 +24,10 @@
       "target": "api::course.course",
       "inversedBy": "chapters"
     },
-    "tutorial": {
+    "lecons": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::tutorial.tutorial",
+      "relation": "oneToMany",
+      "target": "api::lecon.lecon",
       "mappedBy": "chapter"
     }
   }
