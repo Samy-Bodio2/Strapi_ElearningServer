@@ -881,6 +881,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'api::payement.payement'
     >;
     Type: Attribute.Enumeration<['Free', 'Paid']>;
+    courseImage: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
