@@ -812,6 +812,11 @@ export interface ApiCommentComment extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    teacher: Attribute.Relation<
+      'api::comment.comment',
+      'manyToOne',
+      'api::teacher.teacher'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1111,6 +1116,7 @@ export interface ApiTeacherTeacher extends Schema.CollectionType {
     singularName: 'teacher';
     pluralName: 'teachers';
     displayName: 'Teacher';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1122,6 +1128,11 @@ export interface ApiTeacherTeacher extends Schema.CollectionType {
       'api::teacher.teacher',
       'oneToMany',
       'api::course.course'
+    >;
+    comments: Attribute.Relation<
+      'api::teacher.teacher',
+      'oneToMany',
+      'api::comment.comment'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
